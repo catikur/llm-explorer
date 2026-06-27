@@ -9,6 +9,7 @@ export interface ParsedUrlState {
   sortKey: SortKey | null;
   sortDir: SortDir | null;
   selected: string[];
+  detail: string | null; // açık model detayının id'si
 }
 
 const splitList = (v: string | null): string[] =>
@@ -21,7 +22,13 @@ const splitList = (v: string | null): string[] =>
 
 export function readUrlState(): ParsedUrlState {
   if (typeof window === "undefined") {
-    return { filters: {}, sortKey: null, sortDir: null, selected: [] };
+    return {
+      filters: {},
+      sortKey: null,
+      sortDir: null,
+      selected: [],
+      detail: null,
+    };
   }
   const p = new URLSearchParams(window.location.search);
   const filters: Partial<FilterState> = {};
@@ -53,7 +60,13 @@ export function readUrlState(): ParsedUrlState {
     if (d === "asc" || d === "desc") sortDir = d;
   }
 
-  return { filters, sortKey, sortDir, selected: splitList(p.get("sel")) };
+  return {
+    filters,
+    sortKey,
+    sortDir,
+    selected: splitList(p.get("sel")),
+    detail: p.get("model") || null,
+  };
 }
 
 // Verilen anahtarları URL'de günceller (null/"" → siler), diğerlerini korur.

@@ -186,6 +186,26 @@ const DICT: Dict = {
   cost_monthly: { tr: "Aylık tahmini", en: "Est. monthly" },
   cost_na: { tr: "Fiyat yok", en: "No pricing" },
   cost_cheapest: { tr: "En ucuz", en: "Cheapest" },
+  // model detay
+  detail_view: { tr: "Detayı gör", en: "View details" },
+  detail_pricing: {
+    tr: "Fiyatlandırma ($/M token)",
+    en: "Pricing ($/M tokens)",
+  },
+  detail_prompt: { tr: "Girdi", en: "Input" },
+  detail_completion: { tr: "Çıktı", en: "Output" },
+  detail_blended: { tr: "Harman", en: "Blended" },
+  detail_cache: { tr: "Önbellek okuma", en: "Cache read" },
+  detail_specs: { tr: "Teknik özellikler", en: "Specifications" },
+  detail_max_out: { tr: "Maks. çıktı token", en: "Max output tokens" },
+  detail_input_mod: { tr: "Girdi modaliteleri", en: "Input modalities" },
+  detail_output_mod: { tr: "Çıktı modaliteleri", en: "Output modalities" },
+  detail_moderated: { tr: "Moderasyonlu", en: "Moderated" },
+  detail_usecases: { tr: "Kullanım alanları", en: "Use cases" },
+  detail_similar: { tr: "Benzer modeller", en: "Similar models" },
+  detail_open_or: { tr: "OpenRouter'da aç", en: "Open on OpenRouter" },
+  yes: { tr: "Evet", en: "Yes" },
+  no: { tr: "Hayır", en: "No" },
 };
 
 interface I18nCtx {

@@ -21,6 +21,10 @@ interface AppStateCtx {
   // active usecase filter shortcut (from categories page)
   presetUsecase: string | null;
   setPresetUsecase: (v: string | null) => void;
+  // açık model detayı (drawer) — URL'de model=<id>
+  detailId: string | null;
+  openDetail: (id: string) => void;
+  closeDetail: () => void;
 }
 
 const Ctx = createContext<AppStateCtx | null>(null);
@@ -34,13 +38,22 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   );
   const [compareOpen, setCompareOpen] = useState(false);
   const [presetUsecase, setPresetUsecase] = useState<string | null>(null);
+  const [detailId, setDetailId] = useState<string | null>(
+    () => readUrlState().detail
+  );
   const [location] = useLocation();
 
-  // Seçim her değiştiğinde VE her sayfa geçişinde URL'ye yeniden yazılır; böylece
-  // seçim (karşılaştırma bağlantısı) navigasyonda URL'den düşmez.
+  // Seçim ve açık detay, her değişimde VE her sayfa geçişinde URL'ye yeniden
+  // yazılır; böylece paylaşılabilir durum navigasyonda URL'den düşmez.
   useEffect(() => {
-    patchUrl({ sel: selected.length ? selected.join(",") : null });
-  }, [selected, location]);
+    patchUrl({
+      sel: selected.length ? selected.join(",") : null,
+      model: detailId,
+    });
+  }, [selected, detailId, location]);
+
+  const openDetail = useCallback((id: string) => setDetailId(id), []);
+  const closeDetail = useCallback(() => setDetailId(null), []);
 
   const toggleSelect = useCallback((id: string) => {
     setSelected(prev => {
@@ -65,6 +78,9 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
       setCompareOpen,
       presetUsecase,
       setPresetUsecase,
+      detailId,
+      openDetail,
+      closeDetail,
     }),
     [
       selected,
@@ -73,6 +89,9 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
       isSelected,
       compareOpen,
       presetUsecase,
+      detailId,
+      openDetail,
+      closeDetail,
     ]
   );
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;
