@@ -2,6 +2,7 @@ import { describe, it, expect } from "vitest";
 import {
   fmtPrice,
   fmtContext,
+  fmtUsd,
   computeBounds,
   affordability,
   displayName,
@@ -51,6 +52,16 @@ describe("fmtPrice", () => {
     expect(fmtPrice(0.5)).toBe("$0.500");
     expect(fmtPrice(12.5)).toBe("$12.50");
     expect(fmtPrice(250)).toBe("$250");
+  });
+});
+
+describe("fmtUsd", () => {
+  it("büyüklüğe göre ondalık", () => {
+    expect(fmtUsd(0)).toBe("$0");
+    expect(fmtUsd(0.0005)).toBe("$0.0005");
+    expect(fmtUsd(0.033)).toBe("$0.033");
+    expect(fmtUsd(660)).toBe("$660.00");
+    expect(fmtUsd(12345, "en")).toBe("$12,345");
   });
 });
 

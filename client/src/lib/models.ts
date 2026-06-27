@@ -46,6 +46,15 @@ export function fmtContext(v: number): string {
   return `${v}`;
 }
 
+// Dolar tutarı biçimi (maliyet hesaplayıcıları için) — büyüklüğe göre ondalık.
+export function fmtUsd(v: number, lang = "en"): string {
+  if (v === 0) return "$0";
+  if (v < 0.01) return "$" + v.toFixed(4);
+  if (v < 1) return "$" + v.toFixed(3);
+  if (v < 1000) return "$" + v.toFixed(2);
+  return "$" + Math.round(v).toLocaleString(lang === "tr" ? "tr-TR" : "en-US");
+}
+
 export function fmtNum(v: number | null, suffix = ""): string {
   if (v === null || v === undefined) return "—";
   if (v >= 1000) return `${(v / 1000).toFixed(1)}K${suffix}`;

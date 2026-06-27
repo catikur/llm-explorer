@@ -7,6 +7,7 @@ import {
   fmtPrice,
   fmtContext,
   fmtNum,
+  fmtUsd,
   TIER_LABEL,
 } from "@/lib/models";
 import { useI18n } from "@/contexts/I18nContext";
@@ -358,15 +359,6 @@ function CompareDialog({
   );
 }
 
-// Maliyet ($) biçimi — büyüklüğe göre ondalık.
-function fmtCost(v: number, lang: string): string {
-  if (v === 0) return "$0";
-  if (v < 0.01) return "$" + v.toFixed(4);
-  if (v < 1) return "$" + v.toFixed(3);
-  if (v < 1000) return "$" + v.toFixed(2);
-  return "$" + Math.round(v).toLocaleString(lang === "tr" ? "tr-TR" : "en-US");
-}
-
 function NumField({
   label,
   value,
@@ -482,14 +474,14 @@ function CostCalculator({ models }: { models: Dataset["models"] }) {
                       {t("cost_na")}
                     </span>
                   ) : (
-                    fmtCost(r.per!, lang)
+                    fmtUsd(r.per!, lang)
                   )}
                 </td>
                 <td className="px-3 py-2.5 text-right font-mono tabular-nums font-semibold">
                   {r.na ? (
                     <span className="text-muted-foreground/40">—</span>
                   ) : (
-                    fmtCost(r.monthly!, lang)
+                    fmtUsd(r.monthly!, lang)
                   )}
                 </td>
               </tr>

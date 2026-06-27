@@ -11,6 +11,7 @@ import { AppStateProvider } from "./contexts/AppState";
 import Home from "./pages/Home";
 import Categories from "./pages/Categories";
 import Advisor from "./pages/Advisor";
+import Costs from "./pages/Costs";
 
 // Pareto haritası recharts içerir → yalnızca o sayfaya girilince yüklenir.
 const Landscape = lazy(() => import("./pages/Landscape"));
@@ -21,6 +22,7 @@ function Router() {
       <Route path="/" component={Home} />
       <Route path="/categories" component={Categories} />
       <Route path="/advisor" component={Advisor} />
+      <Route path="/costs" component={Costs} />
       <Route path="/landscape">
         <Suspense
           fallback={

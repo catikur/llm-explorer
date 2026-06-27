@@ -7,6 +7,7 @@ import {
   Sparkles,
   GitCompare,
   ScatterChart,
+  Coins,
 } from "lucide-react";
 import { useAppState } from "@/contexts/AppState";
 
@@ -63,6 +64,7 @@ export default function TopBar() {
     { href: "/", label: t("nav_explore"), icon: Compass },
     { href: "/categories", label: t("nav_categories"), icon: LayoutGrid },
     { href: "/landscape", label: t("nav_landscape"), icon: ScatterChart },
+    { href: "/costs", label: t("nav_costs"), icon: Coins },
     { href: "/advisor", label: t("nav_recommend"), icon: Sparkles },
   ];
 

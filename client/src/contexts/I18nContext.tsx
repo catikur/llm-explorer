@@ -19,6 +19,7 @@ const DICT: Dict = {
   nav_categories: { tr: "Kategoriler", en: "Categories" },
   nav_recommend: { tr: "Öneri Motoru", en: "Advisor" },
   nav_landscape: { tr: "Harita", en: "Map" },
+  nav_costs: { tr: "Maliyet", en: "Cost" },
   nav_compare: { tr: "Karşılaştır", en: "Compare" },
   // Hero
   hero_kicker: {
@@ -228,6 +229,29 @@ const DICT: Dict = {
   },
   landscape_count: { tr: "model haritada", en: "models mapped" },
   landscape_frontier: { tr: "Pareto sınırı", en: "Pareto frontier" },
+  // iş yükü maliyet tahmincisi
+  costs_title: {
+    tr: "İş Yükü Maliyet Tahmincisi",
+    en: "Workload Cost Estimator",
+  },
+  costs_sub: {
+    tr: "Bir iş yükü profili seç (veya kendin ayarla); tüm modelleri o iş yükü için tahmini aylık maliyete göre sırala.",
+    en: "Pick a workload profile (or set your own) and rank every model by estimated monthly cost for that workload.",
+  },
+  costs_workload: { tr: "İş yükü profili", en: "Workload profile" },
+  wl_chatbot: { tr: "Sohbet botu", en: "Chatbot" },
+  wl_rag: { tr: "RAG / belge", en: "RAG / docs" },
+  wl_agent: { tr: "Kod ajanı", en: "Coding agent" },
+  wl_batch: { tr: "Toplu özetleme", en: "Batch summarize" },
+  wl_custom: { tr: "Özel", en: "Custom" },
+  costs_min_intel: { tr: "Min. zekâ", en: "Min. intelligence" },
+  costs_incl_free: { tr: "Ücretsizleri dahil et", en: "Include free" },
+  costs_rank: { tr: "Sıra", en: "Rank" },
+  costs_count: { tr: "model sıralandı", en: "models ranked" },
+  costs_none: {
+    tr: "Kritere uyan fiyatlı model yok.",
+    en: "No priced models match.",
+  },
 };
 
 interface I18nCtx {
