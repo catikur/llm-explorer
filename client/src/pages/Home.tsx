@@ -4,6 +4,7 @@ import FilterRail from "@/components/FilterRail";
 import ModelTable from "@/components/ModelTable";
 import { useDataset, refreshFromOpenRouter } from "@/hooks/useDataset";
 import { useFilters } from "@/hooks/useFilters";
+import { usePageTitle } from "@/hooks/usePageTitle";
 import { useI18n } from "@/contexts/I18nContext";
 import { useAppState } from "@/contexts/AppState";
 import NavLink from "@/components/NavLink";
@@ -52,6 +53,7 @@ export default function Home() {
   const { data, bounds, refreshing } = useDataset();
   const { t, lang } = useI18n();
   const { presetUsecase, setPresetUsecase } = useAppState();
+  usePageTitle();
 
   const onRefresh = async () => {
     try {

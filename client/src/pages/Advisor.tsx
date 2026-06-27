@@ -3,6 +3,7 @@ import Layout from "@/components/Layout";
 import { useDataset } from "@/hooks/useDataset";
 import { useI18n } from "@/contexts/I18nContext";
 import { useAppState } from "@/contexts/AppState";
+import { usePageTitle } from "@/hooks/usePageTitle";
 import { scoreModels, AdvisorWeights, AdvisorReq } from "@/lib/advisor";
 import {
   displayName,
@@ -97,6 +98,7 @@ export default function Advisor() {
   const { data, bounds } = useDataset();
   const { t, lang } = useI18n();
   const { toggleSelect, isSelected } = useAppState();
+  usePageTitle(t("nav_recommend"));
 
   const [weights, setWeights] = useState<AdvisorWeights>({
     intelligence: 70,

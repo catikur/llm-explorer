@@ -3,6 +3,7 @@ import Layout from "@/components/Layout";
 import { useDataset } from "@/hooks/useDataset";
 import { useI18n } from "@/contexts/I18nContext";
 import { useAppState } from "@/contexts/AppState";
+import { usePageTitle } from "@/hooks/usePageTitle";
 import { getUsecaseIcon } from "@/lib/icons";
 import { displayName, LLMModel, MetricBounds } from "@/lib/models";
 import { intelNorm, speedNorm, priceNorm } from "@/components/MetricBits";
@@ -102,6 +103,7 @@ export default function Categories() {
   const { data, bounds } = useDataset();
   const { t, lang } = useI18n();
   const { setPresetUsecase } = useAppState();
+  usePageTitle(t("nav_categories"));
   const [, navigate] = useLocation();
 
   const models = data?.models ?? [];

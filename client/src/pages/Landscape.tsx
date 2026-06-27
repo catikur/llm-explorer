@@ -3,6 +3,7 @@ import Layout from "@/components/Layout";
 import { useDataset } from "@/hooks/useDataset";
 import { useI18n } from "@/contexts/I18nContext";
 import { useAppState } from "@/contexts/AppState";
+import { usePageTitle } from "@/hooks/usePageTitle";
 import {
   LLMModel,
   displayName,
@@ -74,6 +75,7 @@ export default function Landscape() {
   const { t, lang } = useI18n();
   const { openDetail } = useAppState();
   const [paretoOnly, setParetoOnly] = useState(false);
+  usePageTitle(t("landscape_title"));
 
   const points = useMemo(() => {
     if (!data) return [];
