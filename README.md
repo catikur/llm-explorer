@@ -20,6 +20,12 @@ Zekâ / hız / fiyat / bağlam için ağırlık sliderları + zorunlu yetenek fi
 
 **Karşılaştırma matrisi:** Seçilen modeller için satır satır karşılaştırma, her metrikte kazananın işaretlenmesi ve otomatik üretilen içgörü cümleleri ("X, Y'den 2.4x daha pahalı", "Z en geniş bağlama sahip" vb.).
 
+**Maliyet hesaplayıcı:** Karşılaştırma diyaloğunda girdi/çıktı token ve aylık istek sayısı gir → seçili modeller için istek başı ve aylık tahmini maliyeti karşılaştır; en ucuz vurgulanır.
+
+**Paylaşılabilir URL:** Filtreler, sıralama ve seçili modeller URL'ye yazılır. "Bağlantıyı kopyala" ile mevcut görünümü (veya bir karşılaştırmayı) link olarak paylaş; link açıldığında aynı durum geri yüklenir.
+
+**Canlı veri tazeleme:** Üst çubuktaki "Tazele" butonu OpenRouter API'sinden katalog/fiyatı doğrudan tarayıcıda günceller (benchmark alanları korunur). Kalıcı güncelleme için `pnpm refresh` scripti veri dosyasını yeniden yazar.
+
 ---
 
 ## 🧱 Teknoloji
@@ -44,6 +50,7 @@ pnpm dev          # geliştirme sunucusu — http://localhost:3000
 pnpm build        # üretim derlemesi → dist/
 pnpm preview      # üretim derlemesini yerelde önizle
 pnpm check        # TypeScript tip kontrolü
+pnpm refresh      # OpenRouter'dan veri kümesini tazele (models_dataset.json)
 ```
 
 ---
@@ -106,21 +113,28 @@ server/
 }
 ```
 
-- **Katalog alanları** (model listesi, fiyat, bağlam, modalite, yetenekler) OpenRouter'dan türetilmiştir.
+- **Katalog alanları** (model listesi, fiyat, bağlam, modalite, yetenekler) OpenRouter API'sinden türetilir.
 - **Benchmark alanları** (`intelligence_index`, `output_tps`, `latency_s`) harici benchmark verisinden gelir; 339 modelin 205'inde mevcuttur (`has_benchmark: true`).
 - `tier`, `usecases` ve `value_score` bu alanlardan türetilen sınıflandırmalardır.
 
-> Veri tarihli bir anlık görüntüdür (`generated_at`). Otomatik tazeleme scripti yol haritasındadır (aşağıya bakın).
+### Tazeleme (refresh)
+
+Dönüşüm mantığı `shared/openrouter.ts` içinde olup hem tarayıcı butonu hem de Node scripti tarafından paylaşılır:
+
+- **`pnpm refresh`** — `https://openrouter.ai/api/v1/models` çekilir, katalog/fiyat alanları güncellenir, benchmark alanları mevcut kümeden model id'siyle eşleştirilerek **korunur**, yeni modeller eklenir ve `models_dataset.json` aynı biçimle yeniden yazılır. Çıktıda eklenen/çıkarılan model sayısı raporlanır.
+- **Sitedeki "Tazele" butonu** — aynı dönüşümü tarayıcıda canlı yapar (OpenRouter API'si CORS'a açıktır). Bellekteki veriyi günceller; kalıcı kayıt için scripti kullan.
+
+> Benchmark/hız alanları API'de bulunmadığından tazeleme sırasında korunur; OpenRouter'da yeni görülen modeller benchmark'sız (`has_benchmark: false`, `tier: "unknown"`) eklenir ve use-case'leri yeteneklerinden türetilir.
 
 ---
 
 ## 🛣️ Yol haritası
 
-- [ ] **OpenRouter veri-tazeleme scripti** + GitHub Action (cron) ile otomatik güncelleme
-- [ ] **Paylaşılabilir URL**: filtre/seçim durumunu query param'a yazma ("şu 3 modeli karşılaştır" linki)
-- [ ] **Kalıcı seçim**: seçili modelleri `localStorage`'da saklama
-- [ ] **Maliyet hesaplayıcı**: token sayısından aylık maliyet tahmini
+- [x] **OpenRouter veri-tazeleme**: manuel script (`pnpm refresh`) + sitede canlı "Tazele" butonu
+- [x] **Paylaşılabilir URL**: filtre, sıralama ve seçim durumu query param'da; "Bağlantıyı kopyala"
+- [x] **Maliyet hesaplayıcı**: token hacminden istek başı / aylık maliyet tahmini
 - [ ] **Dışa aktarma**: karşılaştırmayı CSV / PNG olarak
+- [ ] **Otomatik tazeleme**: GitHub Action (cron) ile `pnpm refresh`
 - [ ] CI: typecheck + build doğrulaması
 
 ---

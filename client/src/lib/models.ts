@@ -1,54 +1,13 @@
 // Model veri tipleri ve yardımcılar — OpenRouter LLM Explorer
+// Veri şekli tipleri shared/ içinde (Node tazeleme scriptiyle paylaşılır).
 
-export interface LLMModel {
-  id: string;
-  name: string;
-  vendor: string;
-  context_length: number;
-  max_completion_tokens: number | null;
-  modality: string;
-  input_modalities: string;
-  output_modalities: string;
-  is_multimodal: boolean;
-  image_input: boolean;
-  audio_input: boolean;
-  file_input: boolean;
-  image_output: boolean;
-  prompt_price: number | null;
-  completion_price: number | null;
-  blended_price: number | null;
-  is_free: boolean;
-  cache_read: number | null;
-  tools: boolean;
-  reasoning: boolean;
-  structured_outputs: boolean;
-  is_moderated: boolean;
-  intelligence_index: number | null;
-  output_tps: number | null;
-  latency_s: number | null;
-  has_benchmark: boolean;
-  usecases: string[];
-  tier: "frontier" | "advanced" | "standard" | "lightweight" | "unknown";
-  value_score: number | null;
-}
+export type { LLMModel, UsecaseMeta, Dataset } from "@shared/types";
+import type { LLMModel, Dataset } from "@shared/types";
 
-export interface UsecaseMeta {
-  tr: string;
-  en: string;
-  icon: string;
-  desc_tr: string;
-  desc_en: string;
-}
-
-export interface Dataset {
-  generated_at: string;
-  total: number;
-  vendors: string[];
-  usecase_meta: Record<string, UsecaseMeta>;
-  models: LLMModel[];
-}
-
-export const TIER_LABEL: Record<string, { tr: string; en: string; color: string }> = {
+export const TIER_LABEL: Record<
+  string,
+  { tr: string; en: string; color: string }
+> = {
   frontier: { tr: "Sınır", en: "Frontier", color: "#22D3EE" },
   advanced: { tr: "İleri", en: "Advanced", color: "#34D399" },
   standard: { tr: "Standart", en: "Standard", color: "#FBBF24" },
@@ -63,7 +22,10 @@ export function displayName(m: LLMModel): string {
 }
 
 export function vendorLabel(v: string): string {
-  return v.replace(/^~/, "").replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+  return v
+    .replace(/^~/, "")
+    .replace(/-/g, " ")
+    .replace(/\b\w/g, c => c.toUpperCase());
 }
 
 // Fiyat formatı ($/M token)
@@ -78,7 +40,8 @@ export function fmtPrice(v: number | null): string {
 
 export function fmtContext(v: number): string {
   if (!v) return "—";
-  if (v >= 1_000_000) return `${(v / 1_000_000).toFixed(v % 1_000_000 === 0 ? 0 : 1)}M`;
+  if (v >= 1_000_000)
+    return `${(v / 1_000_000).toFixed(v % 1_000_000 === 0 ? 0 : 1)}M`;
   if (v >= 1000) return `${Math.round(v / 1000)}K`;
   return `${v}`;
 }
@@ -98,10 +61,16 @@ export interface MetricBounds {
 }
 
 export function computeBounds(models: LLMModel[]): MetricBounds {
-  const intel = models.map((m) => m.intelligence_index).filter((x): x is number => x != null);
-  const speed = models.map((m) => m.output_tps).filter((x): x is number => x != null);
-  const price = models.map((m) => m.blended_price).filter((x): x is number => x != null && x > 0);
-  const ctx = models.map((m) => m.context_length).filter((x) => x > 0);
+  const intel = models
+    .map(m => m.intelligence_index)
+    .filter((x): x is number => x != null);
+  const speed = models
+    .map(m => m.output_tps)
+    .filter((x): x is number => x != null);
+  const price = models
+    .map(m => m.blended_price)
+    .filter((x): x is number => x != null && x > 0);
+  const ctx = models.map(m => m.context_length).filter(x => x > 0);
   return {
     intelligence: [Math.min(...intel), Math.max(...intel)],
     speed: [Math.min(...speed), Math.max(...speed)],
@@ -117,7 +86,10 @@ export function norm(v: number, min: number, max: number): number {
 }
 
 // Maliyet için "ucuzluk skoru" (düşük fiyat = yüksek skor)
-export function affordability(m: LLMModel, bounds: MetricBounds): number | null {
+export function affordability(
+  m: LLMModel,
+  bounds: MetricBounds
+): number | null {
   if (m.is_free) return 1;
   if (m.blended_price == null || m.blended_price <= 0) return null;
   const logP = Math.log10(m.blended_price);

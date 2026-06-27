@@ -2,17 +2,20 @@ import { useMemo, useState, useEffect } from "react";
 import Layout from "@/components/Layout";
 import FilterRail from "@/components/FilterRail";
 import ModelTable from "@/components/ModelTable";
-import { useDataset } from "@/hooks/useDataset";
+import { useDataset, refreshFromOpenRouter } from "@/hooks/useDataset";
 import { useFilters } from "@/hooks/useFilters";
 import { useI18n } from "@/contexts/I18nContext";
 import { useAppState } from "@/contexts/AppState";
 import { Link } from "wouter";
+import { toast } from "sonner";
 import {
   Sparkles,
   SlidersHorizontal,
   Search as SearchIcon,
   ArrowRight,
   Inbox,
+  RefreshCw,
+  Link2,
 } from "lucide-react";
 import {
   Sheet,
@@ -46,9 +49,41 @@ function HeroStat({
 }
 
 export default function Home() {
-  const { data, bounds } = useDataset();
-  const { t } = useI18n();
+  const { data, bounds, refreshing } = useDataset();
+  const { t, lang } = useI18n();
   const { presetUsecase, setPresetUsecase } = useAppState();
+
+  const onRefresh = async () => {
+    try {
+      const r = await refreshFromOpenRouter();
+      let msg = `${t("refresh_updated")} · ${r.total}`;
+      if (r.added) msg += ` · ${r.added} ${t("refresh_new")}`;
+      if (r.removed) msg += ` · ${r.removed} ${t("refresh_removed")}`;
+      toast.success(msg);
+    } catch {
+      toast.error(t("refresh_failed"));
+    }
+  };
+
+  const onShare = async () => {
+    try {
+      await navigator.clipboard.writeText(window.location.href);
+      toast.success(t("share_ok"));
+    } catch {
+      toast.error(t("share"));
+    }
+  };
+
+  const dataDate = data
+    ? new Date(data.generated_at).toLocaleDateString(
+        lang === "tr" ? "tr-TR" : "en-US",
+        {
+          day: "numeric",
+          month: "short",
+          year: "numeric",
+        }
+      )
+    : "";
 
   const models = data?.models ?? [];
   const f = useFilters(models, bounds);
@@ -191,6 +226,39 @@ export default function Home() {
                 </span>{" "}
                 {t("of")} {models.length} {t("showing")}
               </div>
+              <div className="flex items-center gap-2">
+                {/* Veri tarihi */}
+                {data && (
+                  <span className="hidden sm:inline font-mono text-[11px] text-muted-foreground/70">
+                    {t("data_label")}: {dataDate}
+                  </span>
+                )}
+                {/* Paylaş (URL kopyala) */}
+                <button
+                  onClick={onShare}
+                  title={t("share")}
+                  className="flex items-center gap-1.5 h-9 px-3 rounded-md border border-border bg-white/[0.03] text-sm font-medium hover:border-primary/50 hover:text-primary transition-colors"
+                >
+                  <Link2 className="h-4 w-4" />
+                  <span className="hidden md:inline">{t("share")}</span>
+                </button>
+                {/* Tazele (OpenRouter'dan canlı) */}
+                <button
+                  onClick={onRefresh}
+                  disabled={refreshing}
+                  title={t("refresh_tip")}
+                  className="flex items-center gap-1.5 h-9 px-3 rounded-md border border-border bg-white/[0.03] text-sm font-medium hover:border-primary/50 hover:text-primary transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
+                >
+                  <RefreshCw
+                    className={`h-4 w-4 ${refreshing ? "animate-spin" : ""}`}
+                  />
+                  <span className="hidden md:inline">
+                    {refreshing ? t("refreshing") : t("refresh")}
+                  </span>
+                </button>
+              </div>
+            </div>
+            <div className="flex items-center justify-end gap-3 mb-4 lg:hidden">
               {/* Mobile filter trigger */}
               {data && (
                 <Sheet>
