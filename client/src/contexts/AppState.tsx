@@ -7,6 +7,7 @@ import {
   useMemo,
   useEffect,
 } from "react";
+import { useLocation } from "wouter";
 import { LLMModel } from "@/lib/models";
 import { readUrlState, patchUrl } from "@/lib/urlState";
 
@@ -33,11 +34,13 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   );
   const [compareOpen, setCompareOpen] = useState(false);
   const [presetUsecase, setPresetUsecase] = useState<string | null>(null);
+  const [location] = useLocation();
 
-  // Seçim değiştikçe URL'yi güncelle.
+  // Seçim her değiştiğinde VE her sayfa geçişinde URL'ye yeniden yazılır; böylece
+  // seçim (karşılaştırma bağlantısı) navigasyonda URL'den düşmez.
   useEffect(() => {
     patchUrl({ sel: selected.length ? selected.join(",") : null });
-  }, [selected]);
+  }, [selected, location]);
 
   const toggleSelect = useCallback((id: string) => {
     setSelected(prev => {

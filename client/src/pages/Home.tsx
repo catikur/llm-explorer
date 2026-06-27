@@ -6,7 +6,7 @@ import { useDataset, refreshFromOpenRouter } from "@/hooks/useDataset";
 import { useFilters } from "@/hooks/useFilters";
 import { useI18n } from "@/contexts/I18nContext";
 import { useAppState } from "@/contexts/AppState";
-import { Link } from "wouter";
+import NavLink from "@/components/NavLink";
 import { toast } from "sonner";
 import {
   Sparkles,
@@ -165,12 +165,12 @@ export default function Home() {
             >
               <SearchIcon className="h-4 w-4" /> {t("hero_cta_explore")}
             </a>
-            <Link
+            <NavLink
               href="/advisor"
               className="flex items-center gap-2 h-11 px-5 rounded-md border border-border bg-white/[0.03] font-semibold transition-colors hover:border-primary/50 hover:text-primary"
             >
               <Sparkles className="h-4 w-4" /> {t("hero_cta_advisor")}
-            </Link>
+            </NavLink>
           </div>
           <div className="grid grid-cols-2 sm:flex sm:items-center gap-6 sm:gap-12 mt-12">
             <HeroStat

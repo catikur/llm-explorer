@@ -1,5 +1,6 @@
 import { useI18n } from "@/contexts/I18nContext";
-import { Link, useLocation } from "wouter";
+import { useLocation } from "wouter";
+import NavLink from "@/components/NavLink";
 import { Compass, LayoutGrid, Sparkles, GitCompare } from "lucide-react";
 import { useAppState } from "@/contexts/AppState";
 
@@ -61,7 +62,7 @@ export default function TopBar() {
   return (
     <header className="sticky top-0 z-40 border-b border-border/70 bg-background/80 backdrop-blur-xl">
       <div className="flex items-center gap-3 sm:gap-5 h-16 px-4 sm:px-6 max-w-[1600px] mx-auto">
-        <Link href="/" className="flex items-center gap-2.5 shrink-0 group">
+        <NavLink href="/" className="flex items-center gap-2.5 shrink-0 group">
           <Logo className="h-9 w-9 text-primary drop-shadow-[0_0_12px_rgba(34,211,238,0.5)] transition-transform group-hover:scale-105" />
           <div className="hidden sm:block leading-tight">
             <div className="font-display font-bold text-[15px] tracking-tight">
@@ -71,14 +72,14 @@ export default function TopBar() {
               {t("tagline")}
             </div>
           </div>
-        </Link>
+        </NavLink>
 
         <nav className="flex items-center gap-1 ml-auto">
           {nav.map(n => {
             const active = loc === n.href;
             const Icon = n.icon;
             return (
-              <Link
+              <NavLink
                 key={n.href}
                 href={n.href}
                 className={`relative flex items-center gap-1.5 px-2.5 sm:px-3.5 h-9 rounded-md text-sm font-medium transition-colors ${
@@ -89,7 +90,7 @@ export default function TopBar() {
               >
                 <Icon className="h-4 w-4" />
                 <span className="hidden md:inline">{n.label}</span>
-              </Link>
+              </NavLink>
             );
           })}
         </nav>
