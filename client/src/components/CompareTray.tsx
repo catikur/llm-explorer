@@ -12,6 +12,7 @@ import {
 } from "@/lib/models";
 import { useI18n } from "@/contexts/I18nContext";
 import { useAppState } from "@/contexts/AppState";
+import { useLocation } from "wouter";
 import { computeWinners, generateInsights } from "@/lib/advisor";
 import {
   MetricBar,
@@ -42,6 +43,7 @@ import {
   Lightbulb,
   Calculator,
   Link2,
+  Swords,
 } from "lucide-react";
 
 interface Props {
@@ -138,6 +140,7 @@ function CompareDialog({
   models: Dataset["models"];
 }) {
   const { t, lang } = useI18n();
+  const [, navigate] = useLocation();
   const winners = useMemo(() => computeWinners(models), [models]);
   const insights = useMemo(
     () => generateInsights(models, lang),
@@ -244,19 +247,34 @@ function CompareDialog({
               <GitCompare className="h-5 w-5 text-primary" />{" "}
               {t("compare_title")}
             </DialogTitle>
-            <button
-              onClick={async () => {
-                try {
-                  await navigator.clipboard.writeText(window.location.href);
-                  toast.success(t("share_ok"));
-                } catch {
-                  toast.error(t("share"));
-                }
-              }}
-              className="flex items-center gap-1.5 h-8 px-3 rounded-md border border-border bg-white/[0.03] text-xs font-medium hover:border-primary/50 hover:text-primary transition-colors shrink-0"
-            >
-              <Link2 className="h-3.5 w-3.5" /> {t("share_compare")}
-            </button>
+            <div className="flex items-center gap-2 shrink-0">
+              {models.length === 2 && (
+                <button
+                  onClick={() => {
+                    onClose();
+                    navigate(
+                      `/vs?a=${encodeURIComponent(models[0].id)}&b=${encodeURIComponent(models[1].id)}`
+                    );
+                  }}
+                  className="flex items-center gap-1.5 h-8 px-3 rounded-md border border-border bg-white/[0.03] text-xs font-medium hover:border-primary/50 hover:text-primary transition-colors"
+                >
+                  <Swords className="h-3.5 w-3.5" /> {t("head_to_head")}
+                </button>
+              )}
+              <button
+                onClick={async () => {
+                  try {
+                    await navigator.clipboard.writeText(window.location.href);
+                    toast.success(t("share_ok"));
+                  } catch {
+                    toast.error(t("share"));
+                  }
+                }}
+                className="flex items-center gap-1.5 h-8 px-3 rounded-md border border-border bg-white/[0.03] text-xs font-medium hover:border-primary/50 hover:text-primary transition-colors"
+              >
+                <Link2 className="h-3.5 w-3.5" /> {t("share_compare")}
+              </button>
+            </div>
           </div>
         </DialogHeader>
 

@@ -252,6 +252,20 @@ const DICT: Dict = {
     tr: "Kritere uyan fiyatlı model yok.",
     en: "No priced models match.",
   },
+  // kafa kafaya
+  vs_title: { tr: "Kafa Kafaya", en: "Head-to-Head" },
+  vs_sub: {
+    tr: "İki modeli yan yana kıyasla; her metrikte kazanan işaretlenir. Bağlantı paylaşılabilir.",
+    en: "Compare two models side by side; the winner of each metric is marked. The link is shareable.",
+  },
+  vs_pick_a: { tr: "Birinci model", en: "First model" },
+  vs_pick_b: { tr: "İkinci model", en: "Second model" },
+  vs_pick_prompt: {
+    tr: "Kıyaslamak için iki model seç.",
+    en: "Pick two models to compare.",
+  },
+  vs_swap: { tr: "Yer değiştir", en: "Swap" },
+  head_to_head: { tr: "Kafa kafaya", en: "Head-to-head" },
 };
 
 interface I18nCtx {
