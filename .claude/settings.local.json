@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(env)",
+      "Bash(pnpm install *)",
+      "Bash(echo \"EXIT:$?\")",
+      "Bash(grep -E \"^\\(tsc|vite\\)$\")",
+      "Bash(grep -E \"^\\(tsc|vite|esbuild\\)$\")",
+      "Bash(./node_modules/.bin/tsc --noEmit)",
+      "Bash(echo \"TSC_EXIT:$?\")",
+      "Bash(./node_modules/.bin/vite build *)",
+      "Bash(echo \"VITE_EXIT:$?\")"
+    ]
+  }
+}
