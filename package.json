@@ -10,7 +10,8 @@
     "preview": "vite preview --host",
     "check": "tsc --noEmit",
     "format": "prettier --write .",
-    "refresh": "tsx scripts/refresh-dataset.ts"
+    "refresh": "tsx scripts/refresh-dataset.ts",
+    "test": "vitest run"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.15",
