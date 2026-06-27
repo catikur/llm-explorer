@@ -18,6 +18,7 @@ const DICT: Dict = {
   nav_explore: { tr: "Keşfet", en: "Explore" },
   nav_categories: { tr: "Kategoriler", en: "Categories" },
   nav_recommend: { tr: "Öneri Motoru", en: "Advisor" },
+  nav_landscape: { tr: "Harita", en: "Map" },
   nav_compare: { tr: "Karşılaştır", en: "Compare" },
   // Hero
   hero_kicker: {
@@ -206,6 +207,27 @@ const DICT: Dict = {
   detail_open_or: { tr: "OpenRouter'da aç", en: "Open on OpenRouter" },
   yes: { tr: "Evet", en: "Yes" },
   no: { tr: "Hayır", en: "No" },
+  // değer haritası (Pareto)
+  landscape_title: { tr: "Değer Haritası", en: "Value Map" },
+  landscape_sub: {
+    tr: "Zekâ endeksine karşı harmanlanmış maliyet ($/M, log). Sol-üst = en iyi değer. Pareto sınırındaki modeller hiçbir modele hem zekâ hem fiyatta yenik düşmez.",
+    en: "Intelligence index vs blended cost ($/M, log). Top-left = best value. Models on the Pareto frontier are not beaten by any other on both intelligence and price.",
+  },
+  landscape_pareto_only: {
+    tr: "Yalnızca Pareto sınırı",
+    en: "Pareto frontier only",
+  },
+  landscape_axis_x: {
+    tr: "Harmanlanmış maliyet ($/M, log)",
+    en: "Blended cost ($/M, log)",
+  },
+  landscape_axis_y: { tr: "Zekâ endeksi", en: "Intelligence index" },
+  landscape_note: {
+    tr: "Yalnızca benchmark'lı ve ücretli modeller gösterilir. Ücretsiz modeller (maliyet 0) grafik dışıdır.",
+    en: "Only benchmarked, paid models are shown. Free models (zero cost) are off-chart.",
+  },
+  landscape_count: { tr: "model haritada", en: "models mapped" },
+  landscape_frontier: { tr: "Pareto sınırı", en: "Pareto frontier" },
 };
 
 interface I18nCtx {

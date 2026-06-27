@@ -1,7 +1,13 @@
 import { useI18n } from "@/contexts/I18nContext";
 import { useLocation } from "wouter";
 import NavLink from "@/components/NavLink";
-import { Compass, LayoutGrid, Sparkles, GitCompare } from "lucide-react";
+import {
+  Compass,
+  LayoutGrid,
+  Sparkles,
+  GitCompare,
+  ScatterChart,
+} from "lucide-react";
 import { useAppState } from "@/contexts/AppState";
 
 // Marka logosu — "router" metaforu: merkez düğüm + yörüngedeki düğümler, cyan glow.
@@ -56,6 +62,7 @@ export default function TopBar() {
   const nav = [
     { href: "/", label: t("nav_explore"), icon: Compass },
     { href: "/categories", label: t("nav_categories"), icon: LayoutGrid },
+    { href: "/landscape", label: t("nav_landscape"), icon: ScatterChart },
     { href: "/advisor", label: t("nav_recommend"), icon: Sparkles },
   ];
 

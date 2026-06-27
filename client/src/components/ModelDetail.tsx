@@ -19,7 +19,6 @@ import {
   CapabilityDots,
   intelNorm,
   speedNorm,
-  ctxNorm,
 } from "@/components/MetricBits";
 import {
   Sheet,
